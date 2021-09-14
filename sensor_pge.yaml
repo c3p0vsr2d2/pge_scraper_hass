@@ -1,0 +1,68 @@
+# Uncomment and include the following line in configuration.yaml:
+# sensor more: !include sensors_pge.yaml
+
+- platform: influxdb
+  api_version: 2
+  ssl: false
+  host: !secret influxdb2_ip
+  port: !secret influxdb2_port
+  organization: !secret influxdb2_org_id_number_not_name
+  token: !secret influxdb2_homeassistant_token
+  bucket: !secret influxdb2_pge_usage_bucket
+  queries_flux:
+    - name: "pge_elec_hourly_usage"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_hourly_meas")
+        |> filter(fn: (r) => r["_field"] == "elec_usage_kWh")
+    - name: "pge_weather_hourly_temp"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_hourly_meas")
+        |> filter(fn: (r) => r["_field"] == "weather_temp")
+    - name: "pge_elec_daily_usage"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_gas_daily_meas")
+        |> filter(fn: (r) => r["_field"] == "elec_usage_kWh")
+    - name: "pge_gas_daily_usage"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_gas_daily_meas")
+        |> filter(fn: (r) => r["_field"] == "gas_usage_therms")
+    - name: "pge_combined_daily_usage"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_gas_daily_meas")
+        |> filter(fn: (r) => r["_field"] == "combined_usage_units")
+    - name: "pge_weather_daily_temp_avg"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_gas_daily_meas")
+        |> filter(fn: (r) => r["_field"] == "weather_temp_avg")
+    - name: "pge_weather_daily_temp_hi"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_gas_daily_meas")
+        |> filter(fn: (r) => r["_field"] == "weather_temp_hi")
+    - name: "pge_weather_daily_temp_lo"
+      range_start: "-3d"
+      range_stop: "now()"
+      group_function: last
+      query: >
+        filter(fn: (r) => r["_measurement"] == "pge_elec_gas_daily_meas")
+        |> filter(fn: (r) => r["_field"] == "weather_temp_lo")
