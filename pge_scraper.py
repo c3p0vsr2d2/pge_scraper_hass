@@ -15,7 +15,7 @@ INFLUX_TOKEN = "<enter influx2 DB token>"
 INFLUX_ORG = "<enter influx organization>"
 
 # Selenium
-SELENIUM_URL = "<enter influx (IP + port)>"
+SELENIUM_URL = "<enter selenium (IP + port)>"
 
 MAX_RETRIES = 4;
 
