@@ -1,2 +1,2 @@
 # pge_scraper_hass
-Python scraper for PGE energey (electricity + gas) data
+Python scraper for PGE energy (electricity + gas) data
